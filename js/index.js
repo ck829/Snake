@@ -13,6 +13,7 @@ function Square(x, y, classname) {
     // 20,0     1,0
     // 40,0     2,0
 
+    console.log(1);
     this.x = x * sw;
     this.y = y * sh;
     this.class = classname;
@@ -109,7 +110,7 @@ Snake.prototype.getNextPos = function() {
     // 下个点是自己，代表撞到了自己，游戏结束
     var selfCollied = false; //是否撞到了自己
     this.pos.forEach(function(value) {
-        if (value[0] == nextPos[0] && value[1] == nextPos[1]) {
+        if (value[0] === nextPos[0] && value[1] === nextPos[1]) {
             // 如果数组中的两个数据都相等，就说明下一个点在蛇身上里面能找到，则代表撞到自己了
             selfCollied = true;
         }
@@ -129,7 +130,7 @@ Snake.prototype.getNextPos = function() {
     }
 
     // 下个点是苹果，代表吃到了食物，增长身体
-    if (food && food.pos[0] == nextPos[0] && food.pos[1] == nextPos[1]) {
+    if (food && food.pos[0] === nextPos[0] && food.pos[1] === nextPos[1]) {
         // 如果这个条件成立说明现在蛇头要走的下一个点是食物的那个点
         console.log('吃到食物了！');
         this.strategies.eat.call(this);
