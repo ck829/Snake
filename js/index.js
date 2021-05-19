@@ -13,7 +13,6 @@ function Square(x, y, classname) {
     // 20,0     1,0
     // 40,0     2,0
 
-    console.log(1);
     this.x = x * sw;
     this.y = y * sh;
     this.class = classname;
@@ -137,8 +136,6 @@ Snake.prototype.getNextPos = function() {
         return;
     }
 
-
-
     // 下个点什么都不是，继续前进
     this.strategies.move.call(this);
 };
@@ -181,8 +178,12 @@ Snake.prototype.strategies = {
     },
     eat: function() {
         this.strategies.move.call(this, true);
+        var getFood = document.getElementById('getFood');
+        getFood.play();
         createFood();
         game.score++;
+        var scoreCount = document.querySelector('.ysBottom');
+        scoreCount.innerHTML = game.score;
     },
     die: function() {
         // console.log("die");
@@ -235,6 +236,8 @@ function Game() {
 }
 Game.prototype.init = function() {
     snake.init();
+    var scoreCount = document.querySelector('.ysBottom');
+    scoreCount.innerHTML = this.score;
     // snake.getNextPos();
     createFood();
     document.onkeydown = function(ev) {
@@ -246,22 +249,41 @@ Game.prototype.init = function() {
             snake.direction = snake.directionNum.right;
         } else if (ev.which == 40 && snake.direction != snake.directionNum.up) {
             snake.direction = snake.directionNum.down;
+        } else if (ev.which == 65 && snake.direction != snake.directionNum.right) { //当蛇往右走时，用户摁下左键时不可以往左走
+            snake.direction = snake.directionNum.left;
+        } else if (ev.which == 87 && snake.direction != snake.directionNum.down) {
+            snake.direction = snake.directionNum.up;
+        } else if (ev.which == 68 && snake.direction != snake.directionNum.left) {
+            snake.direction = snake.directionNum.right;
+        } else if (ev.which == 83 && snake.direction != snake.directionNum.up) {
+            snake.direction = snake.directionNum.down;
         }
     }
 
     this.start();
 }
+var speed = 150;
 Game.prototype.start = function() { //开始游戏
     this.timer = setInterval(function() {
         snake.getNextPos();
-    }, 100);
+    }, speed);
 }
 Game.prototype.pause = function() {
     clearInterval(this.timer);
 }
 Game.prototype.over = function() {
+
     clearInterval(this.timer);
+    var player = document.getElementById('wake');
+    player.pause();
+
+    // var death = document.getElementById('death');
+    // death.play();
+
+    player.src = '../static/Hillsong Young And Free - Wake.mp3';
     alert('你的得分为：' + this.score);
+    var replay = document.getElementById('replay');
+    replay.play();
 
     // 游戏回到初始状态
     var snakeWrap = document.getElementById('snakeWrap');
@@ -272,13 +294,25 @@ Game.prototype.over = function() {
 
     var startBtnWrap = document.querySelector('.startBtn');
     startBtnWrap.style.display = 'block';
+
+    var yourScore = document.querySelector('.yourScore');
+    yourScore.style.display = "none";
+    var startScore = document.querySelector('.startScore');
+    startScore.style.display = 'block';
 }
 
 // 开始游戏
 game = new Game();
 var startBtn = document.querySelector('.startBtn button');
+var startScore = document.querySelector('.startScore');
+var yourScore = document.querySelector('.yourScore');
+var wake = document.getElementById("wake");
 startBtn.onclick = function() {
     startBtn.parentNode.style.display = 'none';
+    startScore.style.display = 'none';
+    yourScore.style.display = 'block';
+    wake.volume = 0.5;
+    wake.play();
     game.init();
 }
 
@@ -287,10 +321,50 @@ var snakeWrap = document.getElementById('snakeWrap');
 var pauseBtn = document.querySelector('.pauseBtn button');
 snakeWrap.onclick = function() {
     game.pause();
+    wake.pause();
     pauseBtn.parentNode.style.display = 'block';
 }
 
 pauseBtn.onclick = function() {
     game.start();
+    wake.volume = 0.5;
+    wake.play();
     pauseBtn.parentNode.style.display = 'none';
+}
+
+// 难度等级
+var leftSpeed = document.querySelector('.leftSpeed button');
+var centerSpeed = document.querySelector('.centerSpeed button');
+var rightSpeed = document.querySelector('.rightSpeed button');
+
+centerSpeed.style.backgroundColor = '#7dd9ff';
+centerSpeed.style.color = '#225675';
+
+leftSpeed.onclick = function() {
+    leftSpeed.style.backgroundColor = '#7dd9ff';
+    leftSpeed.style.color = '#225675';
+    centerSpeed.style.backgroundColor = '#225675';
+    centerSpeed.style.color = '#fff';
+    rightSpeed.style.backgroundColor = '#225675';
+    rightSpeed.style.color = '#fff';
+    speed = 200;
+}
+centerSpeed.onclick = function() {
+    centerSpeed.style.backgroundColor = '#7dd9ff';
+    centerSpeed.style.color = '#225675';
+    leftSpeed.style.backgroundColor = '#225675';
+    leftSpeed.style.color = '#fff';
+    rightSpeed.style.backgroundColor = '#225675';
+    rightSpeed.style.color = '#fff';
+    speed = 150;
+
+}
+rightSpeed.onclick = function() {
+    rightSpeed.style.backgroundColor = '#7dd9ff';
+    rightSpeed.style.color = '#225675';
+    centerSpeed.style.backgroundColor = '#225675';
+    centerSpeed.style.color = '#fff';
+    leftSpeed.style.backgroundColor = '#225675';
+    leftSpeed.style.color = '#fff';
+    speed = 100;
 }

@@ -78,3 +78,78 @@
     background-image: url(../images/apple2.png);
     background-size: cover;
 }
+
+
+/* 计分器 */
+
+.score {
+    width: 240px;
+    height: 240px;
+    position: fixed;
+    left: 1110px;
+    top: 30px;
+}
+
+#yourScore {
+    width: 200px;
+    height: 200px;
+    background: #225675;
+    border: 20px solid #7dd9ff;
+}
+
+.startScore {
+    color: white;
+    font-weight: 600;
+    font-size: 75px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.yourScore {
+    display: none;
+}
+
+.yourScore {
+    line-height: 100px;
+    font-size: 50px;
+    color: white;
+    text-align: center;
+}
+
+
+/* 速度控制按钮 */
+
+.speed {
+    width: 240px;
+    height: 100px;
+    position: fixed;
+    left: 1110px;
+    top: 290px;
+}
+
+.speed button {
+    width: 60px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 38px;
+    font-weight: 600;
+    background-color: #225675;
+    color: white;
+    border: none;
+}
+
+.leftSpeed {
+    float: left;
+}
+
+.rightSpeed {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.centerSpeed {
+    margin-left: 30px;
+}
